@@ -1,7 +1,7 @@
 import allure
 from allure_commons.types import AttachmentType
 
-from demoga_tests.model.browser_settings import is_selenoid_enabled
+from tests.config import USE_SELENOID
 
 
 # Скриншоты
@@ -12,7 +12,7 @@ def add_screenshot(browser):
 
 def add_logs(browser):
     try:
-        if is_selenoid_enabled():
+        if USE_SELENOID:
             logs = browser.driver.execute("getLog", {"type": 'browser'})["value"]
         else:
             logs = browser.driver.get_log('browser')
@@ -28,9 +28,9 @@ def add_html(browser):
     allure.attach(body=html, name='page_source', attachment_type=AttachmentType.HTML, extension='.html')
 
 
-def add_video(browser,selenoid_url):
-    if is_selenoid_enabled():
-        video_url = f"https://{selenoid_url}/video/{browser.driver.session_id}.mp4"
+def add_video(browser, url):
+    if USE_SELENOID:
+        video_url = f"https://{url}/video/{browser.driver.session_id}.mp4"
         html = "<html><body><video width='100%' height='100%' controls autoplay><source src='" \
                + video_url \
                + "' type='video/mp4'></video></body></html>"
