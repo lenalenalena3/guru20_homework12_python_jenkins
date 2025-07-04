@@ -46,10 +46,11 @@ def setup_browser(request):
 
     if USE_SELENOID:
         browser_name = request.config.getoption('--browser_name')
-        browser_name = browser_name if browser_name != "" else DEFAULT_BROWSER_NAME
         browser_version = request.config.getoption('--browser_version')
-        browser_version = browser_version if browser_version != "" else DEFAULT_BROWSER_VERSION
         selenoid_url = request.config.getoption('--selenoid_url')
+        print(f"Браузер в SELENOID {selenoid_url}: {browser_name}:{browser_version}")
+        browser_name = browser_name if browser_name != "" else DEFAULT_BROWSER_NAME
+        browser_version = browser_version if browser_version != "" else DEFAULT_BROWSER_VERSION
         selenoid_url = selenoid_url if selenoid_url != "" else DEFAULT_SELENOID_URL
 
         # Конфигурация для Selenoid
