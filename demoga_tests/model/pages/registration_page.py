@@ -1,5 +1,7 @@
 import allure
 from selene import browser, have
+from selenium.webdriver import Keys
+
 from demoga_tests.model import resource
 
 
@@ -17,6 +19,7 @@ class RegistrationPage:
         self._date_of_birth_day = browser.all(
             '//div[contains(@class,"datepicker__day--") and not(contains(@class,"outside-month"))]')
         self._subjects = browser.element('#subjectsInput')
+        self._subjects_elements = self._subjects.all('//div[contains(@id, "option")]')
         self._hobbies = browser.element('#hobbiesWrapper').all('//input/following-sibling::label')
         self._picture = browser.element('//input[@type="file"]')
         self._current_address = browser.element('#currentAddress')
@@ -61,7 +64,8 @@ class RegistrationPage:
 
     @allure.step("Заполнить subjects")
     def _set_subjects(self, value):
-        self._subjects.type(value).press_enter()
+        self._subjects.set_value(value)
+        self._subjects_elements.element_by(have.text(value)).click()
 
     @allure.step("Выбрать hobbies")
     def _set_checkbox_hobbies(self, value):
